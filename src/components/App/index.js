@@ -11,6 +11,8 @@ function App() {
   const dispatchRedux = useDispatch();
   const imageData = useSelector(appState => appState.app.imageData);
   const imageCount = useSelector(appState => appState.app.imageCount);
+  const afterKey = useSelector(appState => appState.app.afterKey);
+
 
   const loadMoreHandler = () => {
     dispatchRedux({ type: "IMAGE_COUNT_INCREASED", payload: config.numOfImages });
@@ -20,11 +22,16 @@ function App() {
     (async () => {
       const response = await fetch(config.endPoint);
       const imageJSON = await response.json();
+      const afterKey = await imageJSON.media.paging.cursors.after;
+      const secondRes = await fetch(config.endPoint + "?after=" + afterKey)
+      const secondImageJSON = await secondRes.json();
+      const finalImageData = await imageJSON.media.data.concat(secondImageJSON.media.data)
       dispatchRedux({ type: "IMAGE_COUNT_INCREASED", payload: config.numOfImages })
-      dispatchRedux({ type: "IMAGE_DATA_LOADED", payload: imageJSON.media.data })
+      dispatchRedux({ type: "IMAGE_DATA_LOADED", payload: finalImageData })
     })();
   }, [])
 
+  console.log(imageData.length);
   return (
     <>
       <div className='container app-container'>

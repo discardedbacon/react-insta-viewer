@@ -1,6 +1,9 @@
+import { FaCreativeCommonsPd } from "react-icons/fa"
+
 const initialState = {
     imageData: [],
-    imageCount: 0
+    imageCount: 0,
+    afterKey: null
 }
 
 export default (prevState = initialState, { type, payload }) => {

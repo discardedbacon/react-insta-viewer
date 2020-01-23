@@ -1,5 +1,4 @@
 <?php
-// Set CORS Policy
 // Allow from any origin
 if (isset($_SERVER['HTTP_ORIGIN'])) {
     // should do a check here to match $_SERVER['HTTP_ORIGIN'] to a
@@ -20,17 +19,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
 }
 
-// Instagram/Facebook Graph API
-//
+// insta keys
 $instagram_business_id = ''; 
 $access_token = '';
 $target_user = '';
 
-//retreve for your own account info
-$query = 'name,media{caption,like_count,media_url,permalink,timestamp,username}&access_token='.$access_token;
+//for your own account
+if (isset($_GET['after'])) {
+    $query = 'name,media.after('.$_GET['after'].').limit(1000){caption,like_count,comments_count,media_url,permalink,timestamp,username}&access_token='.$access_token;
+}else{
+    $query = 'name,media{caption,like_count,comments_count,media_url,permalink,timestamp,username}&access_token='.$access_token;
+}
 
 $instagram_api_url = 'https://graph.facebook.com/v5.0/';
-$target_url = $instagram_api_url.$instagram_business_id."?fields=".$query."&access_token=".$access_token;
+$target_url = $instagram_api_url.$instagram_business_id."?fields=".$query;
 
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $target_url);
