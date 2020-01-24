@@ -31,7 +31,6 @@ function App() {
     })();
   }, [])
 
-  console.log(imageData.length);
   return (
     <>
       <div className='container app-container'>
