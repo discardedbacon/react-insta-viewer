@@ -3,6 +3,7 @@ import Card from "../Card/"
 import { useSelector, useDispatch } from "react-redux"
 import Modal from "../Modal/"
 import { FaSync } from "react-icons/fa";
+import { FadeLoader } from "react-spinners"
 
 function App() {
   const defaultConfig = { numOfImages: 20, imageFrame: true, endPoint: "./insta.php" }
@@ -11,7 +12,6 @@ function App() {
   const dispatchRedux = useDispatch();
   const imageData = useSelector(appState => appState.app.imageData);
   const imageCount = useSelector(appState => appState.app.imageCount);
-  const afterKey = useSelector(appState => appState.app.afterKey);
 
 
   const loadMoreHandler = () => {
@@ -35,6 +35,7 @@ function App() {
     <>
       <div className='container app-container'>
         <div className='row'>
+          {!imageData && <FadeLoader color="#666" />}
           {imageData && imageData.map((data, index) => {
             return (index < imageCount ? <Card key={index} data={data} config={config} /> : null)
           })}
