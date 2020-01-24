@@ -26,7 +26,7 @@ $target_user = '';
 
 //for your own account
 if (isset($_GET['after'])) {
-    $query = 'name,media.after('.$_GET['after'].').limit(1000){caption,like_count,comments_count,media_url,permalink,timestamp,username}&access_token='.$access_token;
+    $query = 'name,media.after('.htmlspecialchars($_GET['after']).').limit(1000){caption,like_count,comments_count,media_url,permalink,timestamp,username}&access_token='.$access_token;
 }else{
     $query = 'name,media{caption,like_count,comments_count,media_url,permalink,timestamp,username}&access_token='.$access_token;
 }
